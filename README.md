@@ -35,25 +35,24 @@ GitHub Actions is used to automate website deployment whenever changes are pushe
 ### Website Architecture
 
 ```text
-                    User / Browser
-                          |
-                          v
-                  Amazon CloudFront
-                    HTTPS / CDN
-                          |
-                          v
-                     Amazon S3
-                  Portfolio Website
+User / Browser
+      |
+      v
+Amazon CloudFront
+   HTTPS / CDN
+      |
+      v
+Amazon S3
+Portfolio Website
 
 Visitor Counter Architecture
-
 User / Browser
       |
       v
 Amazon API Gateway
       |
       v
-   AWS Lambda
+AWS Lambda
       |
       v
 Amazon DynamoDB
@@ -62,7 +61,6 @@ Amazon DynamoDB
 Visitor Count
 
 ☁️ AWS Services Used
-
 AWS Service	Purpose
 Amazon S3	Stores the portfolio website
 Amazon CloudFront	CDN and HTTPS delivery
@@ -73,9 +71,7 @@ AWS IAM	Access control and permissions
 AWS WAF	Web application protection
 Amazon CloudWatch	Logging and monitoring
 AWS IAM OIDC	Secure GitHub Actions authentication
-
 🛠️ Technologies
-
 Frontend
 HTML5
 CSS3
@@ -90,35 +86,33 @@ Serverless Architecture
 Programming & Scripting
 Python
 JavaScript
-
 🚀 CI/CD Pipeline
 
 GitHub Actions is used to automate the deployment of website changes.
 
 Deployment Flow
 Developer
-   |
-   v
+    |
+    v
 Git Commit
-   |
-   v
+    |
+    v
 GitHub Repository
-   |
-   v
+    |
+    v
 GitHub Actions
-   |
-   v
+    |
+    v
 AWS IAM OIDC
-   |
-   v
+    |
+    v
 Amazon S3
-   |
-   v
+    |
+    v
 CloudFront Cache Invalidation
-   |
-   v
+    |
+    v
 Live Website
-
 Deployment Process
 
 Whenever code is pushed to the main branch:
@@ -152,22 +146,21 @@ Lambda updates the visitor count stored in DynamoDB and returns the updated coun
 
 Flow
 Browser
-   |
-   v
+    |
+    v
 API Gateway
-   |
-   v
+    |
+    v
 Lambda
-   |
-   v
+    |
+    v
 DynamoDB
-   |
-   v
+    |
+    v
 Updated Visitor Count
-   |
-   v
+    |
+    v
 Browser
-
 🔐 Security
 
 Security was considered throughout the architecture.
@@ -191,6 +184,7 @@ The use of GitHub OIDC avoids storing long-lived AWS access keys inside GitHub A
 AWS infrastructure is managed using Terraform.
 
 Terraform configuration is organized into separate files for different infrastructure components.
+
 terraform/
 ├── provider.tf
 ├── variables.tf
@@ -218,9 +212,7 @@ Version-controlled infrastructure
 Repeatable deployments
 Easier infrastructure changes
 Better understanding of AWS resources and dependencies
-
 📁 Project Structure
-
 cloud-resume-challenge/
 │
 ├── .github/
@@ -249,10 +241,10 @@ cloud-resume-challenge/
 ├── .gitignore
 ├── index.html
 └── README.md
-
 🔄 Deployment Workflow
 
 The overall development workflow is:
+
 Local Development
        |
        v
@@ -272,6 +264,7 @@ CloudFront
        |
        v
 Live Portfolio
+
 This project demonstrates how source code can move from local development to a cloud-hosted production environment using Git and CI/CD automation.
 
 💡 Key Learning Outcomes
@@ -293,7 +286,6 @@ Connecting frontend JavaScript with a serverless API.
 Understanding AWS service integration.
 Designing a cloud architecture with cost awareness.
 Thinking about security and operational considerations when deploying cloud applications.
-
 💰 Cost Awareness
 
 Cost control was an important consideration while designing this project.
