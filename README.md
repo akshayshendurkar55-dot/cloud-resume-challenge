@@ -2,15 +2,21 @@
 
 A cloud-hosted developer portfolio built to demonstrate practical skills in **AWS, Terraform, Serverless Architecture, GitHub Actions CI/CD, and CloudFront**.
 
-This project combines a responsive portfolio website with real AWS infrastructure and a serverless visitor counter.
+This project combines a responsive portfolio website with a serverless visitor counter and Infrastructure as Code.
+
+---
 
 ## 🌐 Live Demo
 
 https://d215msjd79hcy2.cloudfront.net/
 
+---
+
 ## 📌 Project Overview
 
-The portfolio website is hosted using Amazon S3 and delivered through Amazon CloudFront.
+This project is a cloud-hosted portfolio website deployed on AWS.
+
+The website is stored in **Amazon S3** and delivered globally through **Amazon CloudFront**.
 
 A serverless visitor counter is implemented using:
 
@@ -18,9 +24,15 @@ A serverless visitor counter is implemented using:
 - AWS Lambda
 - Amazon DynamoDB
 
-The infrastructure is managed using Terraform, and GitHub Actions automatically deploys website changes to AWS whenever code is pushed to the `main` branch.
+The AWS infrastructure is provisioned and managed using **Terraform**.
+
+GitHub Actions is used to automate website deployment whenever changes are pushed to the `main` branch.
+
+---
 
 ## 🏗️ Architecture
+
+### Website Architecture
 
 ```text
                     User / Browser
@@ -33,61 +45,57 @@ The infrastructure is managed using Terraform, and GitHub Actions automatically 
                      Amazon S3
                   Portfolio Website
 
+Visitor Counter Architecture
 
-Visitor Counter
-
-User
- |
- v
-CloudFront Website
- |
- v
-API Gateway
- |
- v
-AWS Lambda
- |
- v
-DynamoDB
- |
- v
+User / Browser
+      |
+      v
+Amazon API Gateway
+      |
+      v
+   AWS Lambda
+      |
+      v
+Amazon DynamoDB
+      |
+      v
 Visitor Count
-```
 
-## ☁️ AWS Services Used
+☁️ AWS Services Used
 
-| AWS Service | Purpose |
-|---|---|
-| Amazon S3 | Stores the portfolio website |
-| Amazon CloudFront | CDN and HTTPS delivery |
-| AWS Lambda | Serverless visitor counter logic |
-| Amazon DynamoDB | Stores visitor count |
-| Amazon API Gateway | HTTP API for visitor counter |
-| AWS IAM | Access control and permissions |
-| AWS WAF | Web application protection |
-| Amazon CloudWatch | Logging and monitoring |
-| AWS IAM OIDC | Secure GitHub Actions authentication |
+AWS Service	Purpose
+Amazon S3	Stores the portfolio website
+Amazon CloudFront	CDN and HTTPS delivery
+AWS Lambda	Serverless visitor counter logic
+Amazon DynamoDB	Stores visitor count
+Amazon API Gateway	HTTP API for the visitor counter
+AWS IAM	Access control and permissions
+AWS WAF	Web application protection
+Amazon CloudWatch	Logging and monitoring
+AWS IAM OIDC	Secure GitHub Actions authentication
 
-## 🛠️ Technologies
+🛠️ Technologies
 
-- HTML5
-- CSS3
-- JavaScript
-- AWS
-- Terraform
-- Git
-- GitHub
-- GitHub Actions
-- Python
-- Serverless Architecture
+Frontend
+HTML5
+CSS3
+JavaScript
+Cloud & DevOps
+AWS
+Terraform
+Git
+GitHub
+GitHub Actions
+Serverless Architecture
+Programming & Scripting
+Python
+JavaScript
 
-## 🚀 CI/CD Pipeline
+🚀 CI/CD Pipeline
 
-The project uses GitHub Actions for automated deployment.
+GitHub Actions is used to automate the deployment of website changes.
 
-### Deployment Flow
-
-```text
+Deployment Flow
 Developer
    |
    v
@@ -110,33 +118,39 @@ CloudFront Cache Invalidation
    |
    v
 Live Website
-```
 
-Whenever code is pushed to the `main` branch:
+Deployment Process
 
-1. GitHub Actions starts automatically.
-2. GitHub authenticates with AWS using OIDC.
-3. Website files are synchronized to the S3 bucket.
-4. CloudFront cache is invalidated.
-5. The updated website becomes available through CloudFront.
+Whenever code is pushed to the main branch:
 
-No long-lived AWS access keys are stored inside GitHub Actions.
+GitHub Actions starts automatically.
+The repository is checked out.
+GitHub authenticates with AWS using OIDC.
+Website files are synchronized to Amazon S3.
+CloudFront cache is invalidated.
+The updated website becomes available through CloudFront.
 
-## 👀 Serverless Visitor Counter
+No long-lived AWS access keys are stored in GitHub Actions.
+
+Infrastructure vs Deployment
+
+Terraform is used to provision and manage the AWS infrastructure.
+
+GitHub Actions is used to automate website deployment.
+
+This separation keeps infrastructure management and application deployment as two distinct processes.
+
+👀 Serverless Visitor Counter
 
 The portfolio includes a dynamic visitor counter.
 
-The browser sends a GET request to API Gateway.
+When a visitor loads the website, the frontend sends a request to the API.
 
-API Gateway invokes the Lambda function.
+The API Gateway endpoint invokes the Lambda function.
 
-Lambda updates the visitor count in DynamoDB.
+Lambda updates the visitor count stored in DynamoDB and returns the updated count to the browser.
 
-The updated count is returned to the browser as JSON.
-
-### Flow
-
-```text
+Flow
 Browser
    |
    v
@@ -150,39 +164,63 @@ DynamoDB
    |
    v
 Updated Visitor Count
-```
+   |
+   v
+Browser
 
-## 🔐 Security
+🔐 Security
 
-The project uses several security practices:
+Security was considered throughout the architecture.
 
-- Amazon S3 bucket is not publicly exposed.
-- CloudFront uses Origin Access Control to access S3.
-- HTTPS is enforced through CloudFront.
-- AWS WAF is attached to the CloudFront distribution.
-- Lambda uses a dedicated IAM role.
-- Lambda DynamoDB permissions are restricted to the required table and operation.
-- GitHub Actions uses AWS OIDC instead of long-lived AWS access keys.
-- Infrastructure and deployment configuration are maintained in version control.
+The project uses:
 
-## 🏗️ Infrastructure as Code
+Amazon S3 without direct public website access.
+CloudFront Origin Access Control (OAC) for access to S3.
+HTTPS through CloudFront.
+AWS WAF for web application protection.
+A dedicated IAM role for Lambda.
+Restricted DynamoDB permissions for the Lambda function.
+GitHub Actions authentication through AWS OIDC.
+Infrastructure and deployment configuration stored in version control.
+Least-privilege IAM permissions where applicable.
+
+The use of GitHub OIDC avoids storing long-lived AWS access keys inside GitHub Actions.
+
+🏗️ Infrastructure as Code
 
 AWS infrastructure is managed using Terraform.
 
-Terraform configuration includes:
+Terraform configuration is organized into separate files for different infrastructure components.
+terraform/
+├── provider.tf
+├── variables.tf
+├── main.tf
+├── s3.tf
+├── cloudfront.tf
+├── lambda.tf
+├── dynamodb.tf
+├── api.tf
+└── iam.tf
 
-- S3
-- CloudFront
-- Lambda
-- DynamoDB
-- API Gateway
-- IAM
+The Terraform configuration manages infrastructure including:
 
-Using Terraform makes the infrastructure configuration version-controlled and reproducible.
+Amazon S3
+Amazon CloudFront
+AWS Lambda
+Amazon DynamoDB
+Amazon API Gateway
+AWS IAM
 
-## 📁 Project Structure
+Using Terraform provides:
 
-```text
+Infrastructure as Code
+Version-controlled infrastructure
+Repeatable deployments
+Easier infrastructure changes
+Better understanding of AWS resources and dependencies
+
+📁 Project Structure
+
 cloud-resume-challenge/
 │
 ├── .github/
@@ -211,51 +249,114 @@ cloud-resume-challenge/
 ├── .gitignore
 ├── index.html
 └── README.md
-```
 
-## 💡 Key Learning Outcomes
+🔄 Deployment Workflow
 
-Through this project I practiced:
+The overall development workflow is:
+Local Development
+       |
+       v
+Git
+       |
+       v
+GitHub Repository
+       |
+       v
+GitHub Actions
+       |
+       v
+AWS
+       |
+       v
+CloudFront
+       |
+       v
+Live Portfolio
+This project demonstrates how source code can move from local development to a cloud-hosted production environment using Git and CI/CD automation.
 
-- Deploying a website using AWS.
-- Working with Amazon S3 and CloudFront.
-- Building a serverless backend using API Gateway, Lambda and DynamoDB.
-- Managing AWS IAM permissions.
-- Implementing least-privilege access.
-- Using Terraform for Infrastructure as Code.
-- Configuring GitHub Actions CI/CD.
-- Using GitHub OIDC for secure AWS authentication.
-- Working with CloudFront caching and invalidation.
-- Connecting frontend JavaScript with a serverless API.
-- Designing a cloud architecture with cost awareness.
+💡 Key Learning Outcomes
 
-## 💰 Cost Awareness
+Through this project, I practiced:
 
-The architecture avoids always-running infrastructure such as:
+Deploying a website using AWS.
+Working with Amazon S3.
+Configuring Amazon CloudFront.
+Understanding CDN caching and invalidation.
+Building a serverless backend using API Gateway, Lambda and DynamoDB.
+Managing AWS IAM permissions.
+Applying least-privilege principles.
+Using Terraform for Infrastructure as Code.
+Managing infrastructure through version control.
+Configuring GitHub Actions CI/CD.
+Using GitHub OIDC for secure AWS authentication.
+Connecting frontend JavaScript with a serverless API.
+Understanding AWS service integration.
+Designing a cloud architecture with cost awareness.
+Thinking about security and operational considerations when deploying cloud applications.
 
-- EC2 instances
-- RDS databases
-- NAT Gateways
-- EKS clusters
+💰 Cost Awareness
 
-The application primarily uses serverless and managed AWS services.
+Cost control was an important consideration while designing this project.
 
-AWS usage should still be monitored because pricing and free-tier limits can change.
+The architecture avoids continuously running infrastructure such as:
 
-## 🔗 Repository
+EC2 instances
+RDS databases
+NAT Gateways
+EKS clusters
+
+Instead, the project primarily uses serverless and managed AWS services.
+
+However, AWS services can still generate charges depending on usage, configuration and current pricing.
+
+Therefore:
+
+AWS usage should be monitored regularly.
+Unnecessary resources should be removed when they are no longer required.
+Cloud resources should be kept running only when needed for demonstrations or development.
+AWS pricing and Free Tier limits should always be checked before deploying resources.
+📚 What This Project Demonstrates
+
+This project demonstrates practical experience with:
+
+Cloud
+
+AWS S3, CloudFront, Lambda, API Gateway, DynamoDB and IAM.
+
+Infrastructure as Code
+
+Terraform-based AWS infrastructure management.
+
+CI/CD
+
+GitHub Actions automated deployment.
+
+Security
+
+IAM, least-privilege permissions, CloudFront OAC and GitHub OIDC.
+
+Serverless Architecture
+
+API Gateway + Lambda + DynamoDB.
+
+Version Control
+
+Git and GitHub-based project development.
+
+🔗 Repository
 
 GitHub:
 
 https://github.com/akshayshendurkar55-dot/cloud-resume-challenge
 
-## 👨‍💻 Author
+👨‍💻 Author
 
-**Laxmikant Shendurkar**
+Laxmikant Shendurkar
 
-Cloud & DevOps Engineer
+B.Tech CSE Student | Aspiring Cloud & DevOps Engineer
 
-GitHub:  
+GitHub:
 https://github.com/akshayshendurkar55-dot
 
-LinkedIn:  
+LinkedIn:
 https://www.linkedin.com/in/laxmikant-shendurkar-b34b3622a/
