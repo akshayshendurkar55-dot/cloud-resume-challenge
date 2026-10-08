@@ -60,7 +60,9 @@ Amazon DynamoDB
       v
 Visitor Count
 
+
 ☁️ AWS Services Used
+
 AWS Service	Purpose
 Amazon S3	Stores the portfolio website
 Amazon CloudFront	CDN and HTTPS delivery
